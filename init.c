@@ -4,12 +4,19 @@ void	init_philo(t_info *data, int i)
 {
 	t_philo *philo;
 
-	philo = &data->philo[i];
+	philo = &(data->philo[i]);
+	philo->l_fork_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	philo->r_fork_mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
+	pthread_mutex_init(philo->l_fork_mutex, NULL);
+	pthread_mutex_init(philo->r_fork_mutex, NULL);
 	philo->data = data;
 	philo->nb = i + 1;
 	philo->l_fork = 0;
 	philo->r_fork = 0;
+	philo->my_fork = 0;
 	pthread_create(&(philo->thread), NULL, &simulate, philo);
+	//pthread_mutex_destroy(philo->l_fork_mutex);
+	//pthread_mutex_destroy(philo->r_fork_mutex);
 }
 
 void	init_info(int ac, char **av, t_info *data)
@@ -26,16 +33,14 @@ void	init_info(int ac, char **av, t_info *data)
 	else
 		data->max_eat = 0;
 	data->start_time = get_miliseconds();
-	data->mutex = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t));
-	pthread_mutex_init(data->mutex, NULL);
 	data->philo = (t_philo *)malloc(data->n_philo * sizeof(t_philo));
 	while (i < data->n_philo)
 	{
 		init_philo(data, i);
-		pthread_join(data->philo[i].thread, NULL);
 		i++;
 	}
-	pthread_mutex_destroy(data->mutex);
+	i = 0;
+	while (i < data->n_philo)
+		pthread_join(data->philo[i].thread, NULL);
 	free(data->philo);
-    free(data->mutex);
 }

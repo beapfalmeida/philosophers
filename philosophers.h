@@ -10,12 +10,6 @@
 
 typedef struct s_philo t_philo;
 
-typedef struct s_fork
-{
-	t_philo	*philo;
-	int		id;
-}	t_fork;
-
 typedef struct s_info
 {
 	int				n_philo;
@@ -24,17 +18,19 @@ typedef struct s_info
 	int				sleep_time;
 	int				max_eat;
 	long			start_time;
-	pthread_mutex_t	*mutex;
 	t_philo			*philo;
 }	t_info;
 
 typedef struct s_philo
 {
 	t_info		*data;
+	int			my_fork;
 	int			nb;
 	int			l_fork;
 	int			r_fork;
 	pthread_t	thread;
+	pthread_mutex_t	*l_fork_mutex;
+	pthread_mutex_t	*r_fork_mutex;
 }	t_philo;
 
 //utils
