@@ -4,6 +4,7 @@ void	print_info(t_philo *philo, char c)
 {
 	long	time;
 
+	//pthread_mutex_lock(&(philo->data->write_mutex));
 	time = get_miliseconds() - philo->data->start_time;
 	if (c == 'e')
 		printf("%ld %i is eating\n", time, philo->nb);
@@ -13,6 +14,7 @@ void	print_info(t_philo *philo, char c)
 		printf("%ld %i is thinking\n", time, philo->nb);
 	else if (c == 'f')
 		printf("%ld %i has taken a fork\n", time, philo->nb);
+	//pthread_mutex_unlock(&(philo->data->write_mutex));
 }
 long	get_miliseconds()
 {

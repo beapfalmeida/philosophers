@@ -18,19 +18,16 @@ typedef struct s_info
 	int				sleep_time;
 	int				max_eat;
 	long			start_time;
+	pthread_mutex_t	*forks;
+//	pthread_mutex_t	write_mutex;
 	t_philo			*philo;
 }	t_info;
 
 typedef struct s_philo
 {
 	t_info		*data;
-	int			my_fork;
 	int			nb;
-	int			l_fork;
-	int			r_fork;
-	pthread_t	thread;
-	pthread_mutex_t	*l_fork_mutex;
-	pthread_mutex_t	*r_fork_mutex;
+	pthread_t	tid;
 }	t_philo;
 
 //utils
@@ -45,7 +42,8 @@ long	get_miliseconds();
 
 //simulation
 void	*simulate(void *arg);
-void	grabfork(t_philo *philo, char side);
+void	grabfork(t_philo *philo);
+void	dorpforks(t_philo *philo);
 void	eat(t_philo *philo);
 
 #endif
