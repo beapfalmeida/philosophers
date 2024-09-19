@@ -4,24 +4,27 @@ void	print_info(t_philo *philo, char c)
 {
 	long	time;
 
-	//pthread_mutex_lock(&(philo->data->write_mutex));
+	pthread_mutex_lock(&(philo->data->write_mutex));
 	time = get_miliseconds() - philo->data->start_time;
 	if (c == 'e')
+	{
 		printf("%ld %i is eating\n", time, philo->nb);
+		philo->eat_count++;
+	}
 	else if (c == 's')
 		printf("%ld %i is sleeping\n", time, philo->nb);
 	else if (c == 't')
 		printf("%ld %i is thinking\n", time, philo->nb);
 	else if (c == 'f')
 		printf("%ld %i has taken a fork\n", time, philo->nb);
-	//pthread_mutex_unlock(&(philo->data->write_mutex));
+	pthread_mutex_unlock(&(philo->data->write_mutex));
 }
 long	get_miliseconds()
 {
 	long	milisecs;
 	struct timeval time;
 	gettimeofday(&time, NULL);
-	milisecs = (1000 * time.tv_sec) + (0.001 * time.tv_usec);
+	milisecs = (1000 * time.tv_sec) + (time.tv_usec / 1000);
 	return (milisecs);
 }
 

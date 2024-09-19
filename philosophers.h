@@ -8,6 +8,7 @@
 # include <pthread.h>
 #include <sys/time.h>
 
+
 typedef struct s_philo t_philo;
 
 typedef struct s_info
@@ -19,13 +20,14 @@ typedef struct s_info
 	int				max_eat;
 	long			start_time;
 	pthread_mutex_t	*forks;
-//	pthread_mutex_t	write_mutex;
+	pthread_mutex_t	write_mutex;
 	t_philo			*philo;
 }	t_info;
 
 typedef struct s_philo
 {
 	t_info		*data;
+	int			eat_count;
 	int			nb;
 	pthread_t	tid;
 }	t_philo;
