@@ -1,87 +1,43 @@
 #include "philosophers.h"
-	
-void	grabfork(t_philo *philo)
-{
-	int left; // o meu
-	int right; // o proximo
 
-	left = philo->nb - 1;
-	right = philo->nb;
-	if (philo->nb == philo->data->n_philo)
-		right = 0;
-	if (philo->nb % 2 == 0)
+void	died(t_philo *philo)
+{
+	if (get_chronometer(philo) >= philo->data->time_to_die && !philo->full)
 	{
-		pthread_mutex_lock(&(philo->data->forks[left]));
-		print_info(philo, 'f');
-		pthread_mutex_lock(&(philo->data->forks[right]));
-		print_info(philo, 'f');
-	}
-	else
-	{
-		pthread_mutex_lock(&(philo->data->forks[right]));
-		print_info(philo, 'f');
-		pthread_mutex_lock(&(philo->data->forks[left]));
-		print_info(philo, 'f');
+		set_var(&(philo->data->mutex), philo->dead, 1);
+		print_info(philo, get_chronometer(philo), 'd');
 	}
 }
 
-void	dorpforks(t_philo *philo)
+static void	think(t_philo *philo)
 {
-	int left; // o meu
-	int right; // o proximo
+	if (!philo->dead)
+		print_info(philo, get_chronometer(philo),'t');
+}
 
-	left = philo->nb - 1;
-	right = philo->nb;
-	if (philo->nb == philo->data->n_philo)
-		right = 0;
-	if (philo->nb % 2 == 0)
+static void	go_sleep(t_philo *philo)
+{
+	if (!philo->dead)
 	{
-		pthread_mutex_unlock(&(philo->data->forks[right]));
-		pthread_mutex_unlock(&(philo->data->forks[left]));
+		print_info(philo, get_chronometer(philo),'s');
+		usleep(philo->data->sleep_time);
 	}
-	else
-	{
-		pthread_mutex_unlock(&(philo->data->forks[left]));
-		pthread_mutex_unlock(&(philo->data->forks[right]));
-	}
-}
-
-void	eat(t_philo *philo)
-{
-	// verificar se nao está morto
-	print_info(philo, 'e');
-
-	philo->eat_count++;
-
-	usleep(philo->data->eat_time);
-	dorpforks(philo);
-}
-
-void	think(t_philo *philo)
-{
-	//verificar se nao está morto
-	print_info(philo, 't');
-}
-
-void	go_sleep(t_philo *philo)
-{
-	// verificar se nao está morto
-	print_info(philo, 's');
-	usleep(philo->data->sleep_time);
 }
 
 void	*simulate(void *arg)
 {
-	t_philo *philo = (t_philo*)arg;
-	//wait_all_threads_ready(); TODO
+	t_philo *philo;
+
+	philo = (t_philo*)arg;
+	wait_all_threads(philo->data);
 	if (philo->data->max_eat == 0)
 		return (NULL);
 	while (1)	
 	{
 		grabfork(philo);
 		eat(philo);
-			if (philo->eat_count == philo->data->max_eat) // como e que eu paro todas as threads?? seg fault quando todos comem 1 vez
-			break ;
+			//if (philo->eat_count == philo->data->max_eat) // como e que eu paro todas as threads?? seg fault quando todos comem 1 vez
+			//break ;
 		go_sleep(philo);
 		think(philo);
 	}

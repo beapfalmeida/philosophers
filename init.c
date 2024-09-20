@@ -1,6 +1,23 @@
 #include "philosophers.h"
 
-void	init_philo(t_info *data, int i)
+//duas a menos
+
+//se der erro na thread tenho de ter isso em conta
+void	*control(void *arg)
+{
+	int	i;
+	t_info *data;
+
+	data = (t_info *)arg;
+
+	// tentativa de esperar pelas threads todas - core dumped
+	i = 0;
+	
+	
+	return (NULL);
+}
+
+static void	init_philo(t_info *data, int i)
 {
 	t_philo *philo;
 
@@ -8,14 +25,17 @@ void	init_philo(t_info *data, int i)
 	philo->data = data;
 	philo->nb = i + 1;
 	philo->eat_count = 0;
-	pthread_create(&(philo->tid), NULL, &simulate, philo);
+	philo->dead = 0;
+	pthread_create(&(philo->tid), NULL, &simulate, philo)
 }
-void	init_mutexes(t_info *data)
+
+static void	init_mutexes(t_info *data)
 {
 	int	i;
 
 	i = -1;
 	pthread_mutex_init(&(data->write_mutex), NULL);
+	pthread_mutex_init(&(data->mutex), NULL);
 	while (++i < data->n_philo)
 		pthread_mutex_init(&(data->forks[i]), NULL);
 }
@@ -32,19 +52,17 @@ void	init_info(int ac, char **av, t_info *data)
 		data->max_eat = ft_atoi(av[5]);
 	else
 		data->max_eat = -1;
-	data->start_time = get_miliseconds();
+	data->start_time = gettime_miliseconds();
 	data->philo = (t_philo *)malloc(data->n_philo * sizeof(t_philo));
 	data->forks = (pthread_mutex_t *)malloc(data->n_philo * sizeof(pthread_mutex_t));
 	init_mutexes(data);
+	pthread_create(&(data->control_tid), NULL, &control, NULL);
 	i = -1;
 	while (++i < data->n_philo)
 		init_philo(data, i);
+	set_var(&(data->mutex), data->all_ready, 1);
+	pthread_join(data->control_tid, NULL);
 	i = -1;
 	while (++i < data->n_philo)
 		pthread_join(data->philo[i].tid, NULL);
-	i = -1;
-	while (++i < data->n_philo)
-		pthread_mutex_destroy(&(data->forks[i]));
-	pthread_mutex_destroy(&(data->write_mutex));
-	free(data->philo);
 }

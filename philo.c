@@ -1,5 +1,19 @@
 #include "philosophers.h"
 
+// uma a menos
+
+static void	clear_everything(t_info *data)
+{
+	int	i;	
+
+	i = -1;
+	pthread_mutex_destroy(&(data->write_mutex));
+	pthread_mutex_destroy(&(data->mutex));
+	while (++i < data->n_philo)
+		pthread_mutex_destroy(&(data->forks[i]));
+	free(data->philo);
+}
+
 static void	invalid_args()
 {
 	printf("Please provide the following arguments:\n");
@@ -22,6 +36,7 @@ static void	check_args(int ac, char **av, t_info *data)
 		i++;
 	}
 	init_info(ac, av, data);
+	clear_everything(data);
 }
 
 int	main(int ac, char **av)
