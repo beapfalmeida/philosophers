@@ -14,7 +14,7 @@ typedef struct s_philo t_philo;
 typedef struct s_info
 {
 	int				n_philo;
-	int				time_to_die;
+	long			time_to_die;
 	int				eat_time;
 	int				sleep_time;
 	int				max_eat;
@@ -31,7 +31,7 @@ typedef struct s_philo
 {
 	t_info		*data;
 	int			dead;
-	int			full;
+	long		last_meal;
 	int			eat_count;
 	int			nb;
 	pthread_t	tid;
@@ -56,6 +56,7 @@ void	set_var(pthread_mutex_t *mutex, int var, int set);
 void	init_info(int ac, char **av, t_info *data);
 
 void	*simulate(void *arg);
-void	*control(void *arg);
+int		check_if_died(t_philo *philo);
+void control(t_info *data);
 
 #endif
