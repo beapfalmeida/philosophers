@@ -20,13 +20,25 @@ void control(t_info *data)
 	}
 }
 
+static int	starved(pthread_mutex_t *mutex, t_philo *philo)
+{
+	pthread_mutex_lock(mutex);
+	if (gettime_miliseconds() - philo->last_meal >= philo->data->time_to_die)
+	{
+		pthread_mutex_unlock(&(philo->data->mutex));
+		return (1);
+	}
+	pthread_mutex_unlock(mutex);
+	return (0);
+}
 int	check_if_died(pthread_mutex_t *mutex, t_philo *philo)
 {
 	long	time;
 
-	pthread_mutex_lock(mutex);
-	if (gettime_miliseconds() - philo->last_meal >= philo->data->time_to_die)
+	(void)(mutex);
+	if (starved(mutex, philo))
 	{
+		pthread_mutex_lock(mutex);
 		philo->dead = 1;
 		philo->data->end = 1;
 		time = get_chronometer(philo);
@@ -34,6 +46,6 @@ int	check_if_died(pthread_mutex_t *mutex, t_philo *philo)
 		print_info(philo, time, 'd');
 		return (1);
 	}
-	pthread_mutex_unlock(mutex);
+//	pthread_mutex_unlock(mutex);
 	return (0);
 }

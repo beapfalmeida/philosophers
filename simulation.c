@@ -28,6 +28,9 @@ void	*simulate(void *arg)
 	philo = (t_philo*)arg;
 	if (philo->data->max_eat == 0)
 		return (NULL);
+	//wait_all_threads(philo->data);
+	pthread_mutex_lock(&philo->data->mutex);
+	pthread_mutex_unlock(&philo->data->mutex);
 	while (1)
 	{
 		pthread_mutex_lock(&(philo->data->mutex));

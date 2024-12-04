@@ -38,6 +38,7 @@ void	init_info(int ac, char **av, t_info *data)
 		data->max_eat = ft_atoi(av[5]);
 	else
 		data->max_eat = -1;
+	data->all_ready = 0;
 	data->start_time = gettime_miliseconds();
 	data->philo = (t_philo *)malloc(data->n_philo * sizeof(t_philo));
 	data->forks = (pthread_mutex_t *)malloc(data->n_philo * sizeof(pthread_mutex_t));
@@ -46,7 +47,7 @@ void	init_info(int ac, char **av, t_info *data)
 	while (++i < data->n_philo)
 		init_philo(data, i);
 	pthread_mutex_lock(&(data->mutex));
-		data->all_ready = 1;
+	data->all_ready = 1;
 	pthread_mutex_unlock(&(data->mutex));
 	control(data);
 	i = -1;
