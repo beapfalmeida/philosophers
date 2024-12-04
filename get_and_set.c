@@ -27,10 +27,3 @@ int	get_var(pthread_mutex_t *mutex, int var)
 	pthread_mutex_unlock(mutex);
 	return (res);
 }
-
-void	set_var(pthread_mutex_t *mutex, int var, int set)
-{
-	pthread_mutex_lock(mutex);
-	var = set;
-	pthread_mutex_unlock(mutex);
-}

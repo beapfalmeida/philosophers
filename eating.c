@@ -27,10 +27,7 @@ void	grabfork(t_philo *philo)
 		}
 	}
 	else
-	{
-		print_info(philo, get_chronometer(philo), 'd');
 		exit(0);
-	}
 }
 
 void	dorpforks(t_philo *philo)
@@ -61,14 +58,22 @@ void	dorpforks(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
+	long	time;
+
 	if (!philo->dead)
 	{
-		print_info(philo, get_chronometer(philo), 'e');
-		set_var(&(philo->data->mutex), philo->eat_count, philo->eat_count + 1);
+		pthread_mutex_lock(&(philo->data->mutex));
+		time = get_chronometer(philo);
+		pthread_mutex_unlock(&(philo->data->mutex));
+		print_info(philo, time, 'e');
+		pthread_mutex_lock(&(philo->data->mutex));
+		philo->eat_count++;
+		pthread_mutex_unlock(&(philo->data->mutex));
 		usleep(philo->data->eat_time);
-		set_var(&(philo->data->mutex), philo->last_meal, get_chronometer(philo));
+		pthread_mutex_lock(&(philo->data->mutex));
+		philo->last_meal = time;
+		pthread_mutex_unlock(&(philo->data->mutex));
 		dorpforks(philo);
-		philo->last_meal = get_chronometer(philo);
 	}
 	else
 		exit(0);

@@ -20,11 +20,10 @@ typedef struct s_info
 	int				max_eat;
 	long			start_time;
 	int				all_ready;
+	int				end;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	write_mutex;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t mutex;
 	t_philo			*philo;
-	pthread_t		control_tid;
 }	t_info;
 
 typedef struct s_philo
@@ -37,7 +36,7 @@ typedef struct s_philo
 	pthread_t	tid;
 }	t_philo;
 
-//utils - full 
+//utils - full
 int		is_pos_num(const char *str);
 int		ft_atoi(char *str);
 void	print_info(t_philo *philo, long time, char c);
@@ -51,12 +50,11 @@ void	eat(t_philo *philo);
 long	gettime_miliseconds();
 int		get_var(pthread_mutex_t *mutex, int var);
 long	get_chronometer(t_philo *philo);
-void	set_var(pthread_mutex_t *mutex, int var, int set);
 
 void	init_info(int ac, char **av, t_info *data);
 
 void	*simulate(void *arg);
-int		check_if_died(t_philo *philo);
-void control(t_info *data);
+int		check_if_died(pthread_mutex_t *mutex, t_philo *philo);
+void 	control(t_info *data);
 
 #endif

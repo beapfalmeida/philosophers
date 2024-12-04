@@ -1,10 +1,18 @@
 CC = cc
-CFLAGS = -Wextra -Wall -Werror -g
+CFLAGS = -Wextra -Wall -Werror -g -fsanitize=thread
 NAME = philo
-SRC = philo.c init.c simulation.c eating.c utils.c  get_and_set.c  
-OBJ = $(SRC:.c=.o)
+SRC = philo.c init.c simulation.c eating.c utils.c  get_and_set.c control.c
+OBJ_DIR = obj
+OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
+
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+# Rule for compiling source files to object files in obj/ directory
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
@@ -14,5 +22,6 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+	rm -rf $(OBJ_DIR)
 
 re: fclean all

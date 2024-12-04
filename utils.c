@@ -10,7 +10,14 @@ void	wait_all_threads(t_info *data)
 
 void	print_info(t_philo *philo, long time, char c)
 {
-	pthread_mutex_lock(&(philo->data->write_mutex));
+	pthread_mutex_lock(&(philo->data->mutex));
+	if (c == 'd')
+		printf("%ld %i died\n", time, philo->nb);
+	if (philo->data->end)
+	{
+		pthread_mutex_unlock(&(philo->data->mutex));
+		return ;
+	}
 	if (c == 'e')
 		printf("%ld %i is eating\n", time, philo->nb);
 	else if (c == 's')
@@ -19,9 +26,7 @@ void	print_info(t_philo *philo, long time, char c)
 		printf("%ld %i is thinking\n", time, philo->nb);
 	else if (c == 'f')
 		printf("%ld %i has taken a fork\n", time, philo->nb);
-	else if (c == 'd')
-		printf("%ld %i died\n", time, philo->nb);
-	pthread_mutex_unlock(&(philo->data->write_mutex));
+	pthread_mutex_unlock(&(philo->data->mutex));
 }
 
 int	is_pos_num(const char *str)
