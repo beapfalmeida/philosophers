@@ -13,7 +13,6 @@ static void	init_philo(t_info *data, int i)
 	philo->dead = 0;
 	philo->last_meal = philo->data->start_time;
 	philo->data->end = 0;
-	pthread_create(&(philo->tid), NULL, &simulate, philo);
 }
 
 static void	init_mutexes(t_info *data)
@@ -31,11 +30,11 @@ void	init_info(int ac, char **av, t_info *data)
 	int	i;
 
 	data->n_philo = ft_atoi(av[1]);
-	data->time_to_die = ft_atoi(av[2]) * 1000;
-	data->eat_time = ft_atoi(av[3]) * 1000;
-	data->sleep_time = ft_atoi(av[4]) * 1000;
+	data->time_to_die = ft_atol(av[2]);
+	data->eat_time = ft_atol(av[3]);
+	data->sleep_time = ft_atol(av[4]);
 	if (ac == 6)
-		data->max_eat = ft_atoi(av[5]);
+		data->max_eat = ft_atol(av[5]);
 	else
 		data->max_eat = -1;
 	data->all_ready = 0;
@@ -46,6 +45,9 @@ void	init_info(int ac, char **av, t_info *data)
 	i = -1;
 	while (++i < data->n_philo)
 		init_philo(data, i);
+	i = -1;
+	while (++i < data->n_philo)
+		pthread_create(&(data->philo[i].tid), NULL, &simulate, &data->philo[i]);
 	pthread_mutex_lock(&(data->mutex));
 	data->all_ready = 1;
 	pthread_mutex_unlock(&(data->mutex));

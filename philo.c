@@ -18,6 +18,7 @@ static void	invalid_args()
 	printf("Please provide the following arguments:\n");
 	printf("<nb_of_philosophers> <time_to_die> <time_to_eat>");
 	printf(" <time_to_sleep> [n. of times each must eat]\n");
+	printf("All numbers should be greater than 0\n");
 }
 
 static void	check_args(int ac, char **av, t_info *data)

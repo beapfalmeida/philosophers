@@ -1,5 +1,25 @@
 #include "philosophers.h"
 
+static int	edge_cases(t_philo *philo)
+{
+	pthread_mutex_lock(&(philo->data->mutex));
+	if (philo->data->max_eat == 0)
+	{
+		pthread_mutex_unlock(&(philo->data->mutex));
+		return (1);
+	}
+	if (philo->data->n_philo == 1)
+	{
+		pthread_mutex_unlock(&(philo->data->mutex));
+		pthread_mutex_lock(&(philo->data->forks[0]));
+		pthread_mutex_unlock(&(philo->data->forks[0]));
+		print_info(philo, get_chronometer(philo), 'f');
+		return (1);
+	}
+	pthread_mutex_unlock(&(philo->data->mutex));
+	return (0);
+}
+
 static void	think(t_philo *philo)
 {
 	long	time;
@@ -18,7 +38,7 @@ static void	go_sleep(t_philo *philo)
 	time = get_chronometer(philo);
 	pthread_mutex_unlock(&(philo->data->mutex));
 	print_info(philo, time,'s');
-	usleep(philo->data->sleep_time);
+	usleep(philo->data->sleep_time * 1000);
 }
 
 void	*simulate(void *arg)
@@ -26,11 +46,8 @@ void	*simulate(void *arg)
 	t_philo *philo;
 
 	philo = (t_philo*)arg;
-	if (philo->data->max_eat == 0)
+	if (edge_cases(philo))
 		return (NULL);
-	//wait_all_threads(philo->data);
-	pthread_mutex_lock(&philo->data->mutex);
-	pthread_mutex_unlock(&philo->data->mutex);
 	while (1)
 	{
 		pthread_mutex_lock(&(philo->data->mutex));

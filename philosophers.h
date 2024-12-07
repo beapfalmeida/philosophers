@@ -15,8 +15,8 @@ typedef struct s_info
 {
 	int				n_philo;
 	long			time_to_die;
-	int				eat_time;
-	int				sleep_time;
+	long				eat_time;
+	long				sleep_time;
 	int				max_eat;
 	long			start_time;
 	int				all_ready;
@@ -39,6 +39,7 @@ typedef struct s_philo
 //utils - full
 int		is_pos_num(const char *str);
 int		ft_atoi(char *str);
+long	ft_atol(const char *str);
 void	print_info(t_philo *philo, long time, char c);
 void	wait_all_threads(t_info *data);
 

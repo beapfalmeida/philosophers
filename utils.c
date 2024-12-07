@@ -34,6 +34,8 @@ int	is_pos_num(const char *str)
 	int	i;
 
 	i = 0;
+	if (str[i + 1] == '\0' && str[i] == '0')
+		return (0);
 	while (str[i + 1] && str[i] >= 48 && str[i] <= 57)
 		i++;
 	if (str[i] < '0' || str[i] > '9')
@@ -55,4 +57,32 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (result);
+}
+
+long	ft_atol(const char *str)
+{
+	int		i;
+	long	sign;
+	long	result;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == 43 || str[i] == 45)
+	{
+		if (str[i] == 45)
+		{
+			sign *= -1;
+		}
+		i++;
+	}
+	while (str[i] >= 48 && str[i] <= 57)
+	{
+		result *= 10;
+		result += str[i] - 48;
+		i++;
+	}
+	return (result * sign);
 }
