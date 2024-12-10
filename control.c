@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   control.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 12:13:03 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2024/12/10 12:22:49 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 static int	check_all_ate(t_philo *philo)
 {
 	int	i;
-	
+
 	i = 0;
 	pthread_mutex_lock(&(philo->data->mutex));
 	while (i < philo->data->n_philo)
@@ -20,10 +32,12 @@ static int	check_all_ate(t_philo *philo)
 	return (1);
 }
 
-void control(t_info *data)
+void	control(t_info *data)
 {
 	int	i;
 
+	pthread_mutex_lock(&(data->mutex));
+	pthread_mutex_unlock(&(data->mutex));
 	i = 0;
 	while (1)
 	{
@@ -48,13 +62,13 @@ static int	starved(pthread_mutex_t *mutex, t_philo *philo)
 	pthread_mutex_lock(mutex);
 	if (gettime_miliseconds() - philo->last_meal >= philo->data->time_to_die)
 	{
-
 		pthread_mutex_unlock(&(philo->data->mutex));
 		return (1);
 	}
 	pthread_mutex_unlock(mutex);
 	return (0);
 }
+
 int	check_if_died(pthread_mutex_t *mutex, t_philo *philo)
 {
 	long	time;

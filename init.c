@@ -1,10 +1,20 @@
-#include "philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 12:13:16 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2024/12/10 12:21:26 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//duas a menos
+#include "philosophers.h"
 
 static void	init_philo(t_info *data, int i)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = &(data->philo[i]);
 	philo->data = data;
@@ -38,10 +48,9 @@ void	init_info(int ac, char **av, t_info *data)
 		data->max_eat = ft_atol(av[5]);
 	if (ac != 6 || (av[5][0] == '0' && av[5][1] == '\0'))
 		data->max_eat = -1;
-	data->all_ready = 0;
 	data->start_time = gettime_miliseconds();
 	data->philo = (t_philo *)malloc(data->n_philo * sizeof(t_philo));
-	data->forks = (pthread_mutex_t *)malloc(data->n_philo * sizeof(pthread_mutex_t));
+	data->forks = malloc(data->n_philo * sizeof(pthread_mutex_t));
 	init_mutexes(data);
 	i = -1;
 	while (++i < data->n_philo)
@@ -49,9 +58,6 @@ void	init_info(int ac, char **av, t_info *data)
 	i = -1;
 	while (++i < data->n_philo)
 		pthread_create(&(data->philo[i].tid), NULL, &simulate, &data->philo[i]);
-	pthread_mutex_lock(&(data->mutex));
-	data->all_ready = 1; // tirar (?)
-	pthread_mutex_unlock(&(data->mutex));
 	control(data);
 	i = -1;
 	while (++i < data->n_philo)

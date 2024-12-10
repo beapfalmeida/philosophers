@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 12:14:12 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2024/12/10 12:15:02 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
-long	gettime_miliseconds()
+long	gettime_miliseconds(void)
 {
-	long	milisecs;
-	struct timeval time;
+	long			milisecs;
+	struct timeval	time;
 
 	gettimeofday(&time, NULL);
 	milisecs = (1000 * time.tv_sec) + (time.tv_usec / 1000);
@@ -20,7 +32,7 @@ long	get_chronometer(t_philo *philo)
 
 int	get_var(pthread_mutex_t *mutex, int var)
 {
-	int res;
+	int	res;
 
 	pthread_mutex_lock(mutex);
 	res = var;

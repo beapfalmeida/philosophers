@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   simulation.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 12:14:01 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2024/12/10 12:18:31 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 static int	edge_cases(t_philo *philo)
@@ -23,11 +35,11 @@ static int	edge_cases(t_philo *philo)
 static void	think(t_philo *philo)
 {
 	long	time;
-	
+
 	pthread_mutex_lock(&(philo->data->mutex));
 	time = get_chronometer(philo);
 	pthread_mutex_unlock(&(philo->data->mutex));
-	print_info(philo, time,'t');
+	print_info(philo, time, 't');
 }
 
 static void	go_sleep(t_philo *philo)
@@ -37,15 +49,15 @@ static void	go_sleep(t_philo *philo)
 	pthread_mutex_lock(&(philo->data->mutex));
 	time = get_chronometer(philo);
 	pthread_mutex_unlock(&(philo->data->mutex));
-	print_info(philo, time,'s');
+	print_info(philo, time, 's');
 	ft_usleep(philo, philo->data->sleep_time);
 }
 
 void	*simulate(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
-	philo = (t_philo*)arg;
+	philo = (t_philo *)arg;
 	if (edge_cases(philo))
 		return (NULL);
 	while (1)

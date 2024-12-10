@@ -1,6 +1,16 @@
-#include "philosophers.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 12:13:56 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2024/12/10 12:20:03 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// uma a menos
+#include "philosophers.h"
 
 static void	clear_everything(t_info *data)
 {
@@ -11,9 +21,10 @@ static void	clear_everything(t_info *data)
 	while (++i < data->n_philo)
 		pthread_mutex_destroy(&(data->forks[i]));
 	free(data->philo);
+	free(data->forks);
 }
 
-static void	invalid_args()
+static void	invalid_args(void)
 {
 	printf("Please provide the following arguments:\n");
 	printf("<nb_of_philosophers> <time_to_die> <time_to_eat>");

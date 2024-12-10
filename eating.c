@@ -1,14 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   eating.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 12:13:07 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2024/12/10 12:23:04 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 void	grabfork(t_philo *philo)
 {
-	int left; // o meu
-	int right; // o proximo
+	int	left;
+	int	right;
 
-	left = philo->nb - 1;
-	right = philo->nb;
+	left = philo->nb;
+	right = philo->nb + 1;
+	pthread_mutex_lock(&(philo->data->mutex));
 	if (philo->nb == philo->data->n_philo)
 		right = 0;
+	pthread_mutex_unlock(&(philo->data->mutex));
 	if (philo->nb % 2 == 0)
 	{
 		pthread_mutex_lock(&(philo->data->forks[left]));
@@ -27,14 +41,15 @@ void	grabfork(t_philo *philo)
 
 void	dorpforks(t_philo *philo)
 {
-	int left; // o meu
-	int right; // o proximo
+	int	left;
+	int	right;
 
-	//pthread_mutex_lock(&(philo->data->mutex));
-	left = philo->nb - 1;
-	right = philo->nb;
+	left = philo->nb;
+	right = philo->nb + 1;
+	pthread_mutex_lock(&(philo->data->mutex));
 	if (philo->nb == philo->data->n_philo)
 		right = 0;
+	pthread_mutex_unlock(&(philo->data->mutex));
 	if (philo->nb % 2 == 0)
 	{
 		pthread_mutex_unlock(&(philo->data->forks[right]));
@@ -45,7 +60,6 @@ void	dorpforks(t_philo *philo)
 		pthread_mutex_unlock(&(philo->data->forks[left]));
 		pthread_mutex_unlock(&(philo->data->forks[right]));
 	}
-	//pthread_mutex_unlock(&(philo->data->mutex));
 }
 
 void	eat(t_philo *philo)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/10 12:18:08 by bpaiva-f          #+#    #+#             */
+/*   Updated: 2024/12/10 12:19:45 by bpaiva-f         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
@@ -6,23 +18,21 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <pthread.h>
-#include <sys/time.h>
+# include <sys/time.h>
 
-
-typedef struct s_philo t_philo;
+typedef struct s_philo	t_philo;
 
 typedef struct s_info
 {
 	int				n_philo;
 	long			time_to_die;
-	long				eat_time;
-	long				sleep_time;
+	long			eat_time;
+	long			sleep_time;
 	int				max_eat;
 	long			start_time;
-	int				all_ready;
 	int				end;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t mutex;
+	pthread_mutex_t	mutex;
 	t_philo			*philo;
 }	t_info;
 
@@ -44,7 +54,7 @@ long	ft_atol(const char *str);
 void	print_info(t_philo *philo, long time, char c);
 
 // utils2
-long	gettime_miliseconds();
+long	gettime_miliseconds(void);
 int		get_var(pthread_mutex_t *mutex, int var);
 long	get_chronometer(t_philo *philo);
 void	ft_usleep(t_philo *philo, long wait_time);
@@ -60,6 +70,6 @@ void	init_info(int ac, char **av, t_info *data);
 
 void	*simulate(void *arg);
 int		check_if_died(pthread_mutex_t *mutex, t_philo *philo);
-void 	control(t_info *data);
+void	control(t_info *data);
 
 #endif
