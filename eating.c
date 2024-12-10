@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:13:07 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/10 12:23:04 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:23:03 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,68 +14,47 @@
 
 void	grabfork(t_philo *philo)
 {
-	int	left;
-	int	right;
-
-	left = philo->nb;
-	right = philo->nb + 1;
-	pthread_mutex_lock(&(philo->data->mutex));
-	if (philo->nb == philo->data->n_philo)
-		right = 0;
-	pthread_mutex_unlock(&(philo->data->mutex));
 	if (philo->nb % 2 == 0)
 	{
-		pthread_mutex_lock(&(philo->data->forks[left]));
-		print_info(philo, get_chronometer(philo), 'f');
-		pthread_mutex_lock(&(philo->data->forks[right]));
-		print_info(philo, get_chronometer(philo), 'f');
+		pthread_mutex_lock(&(philo->data->forks[philo->left]));
+		print_info(philo, 'f');
+		pthread_mutex_lock(&(philo->data->forks[philo->right]));
+		print_info(philo, 'f');
 	}
 	else
 	{
-		pthread_mutex_lock(&(philo->data->forks[right]));
-		print_info(philo, get_chronometer(philo), 'f');
-		pthread_mutex_lock(&(philo->data->forks[left]));
-		print_info(philo, get_chronometer(philo), 'f');
+		pthread_mutex_lock(&(philo->data->forks[philo->right]));
+		print_info(philo, 'f');
+		pthread_mutex_lock(&(philo->data->forks[philo->left]));
+		print_info(philo, 'f');
 	}
 }
 
-void	dorpforks(t_philo *philo)
+void	dropforks(t_philo *philo)
 {
-	int	left;
-	int	right;
-
-	left = philo->nb;
-	right = philo->nb + 1;
-	pthread_mutex_lock(&(philo->data->mutex));
-	if (philo->nb == philo->data->n_philo)
-		right = 0;
-	pthread_mutex_unlock(&(philo->data->mutex));
 	if (philo->nb % 2 == 0)
 	{
-		pthread_mutex_unlock(&(philo->data->forks[right]));
-		pthread_mutex_unlock(&(philo->data->forks[left]));
+		pthread_mutex_unlock(&(philo->data->forks[philo->right]));
+		print_info(philo, 'p');
+		pthread_mutex_unlock(&(philo->data->forks[philo->left]));
+		print_info(philo, 'p');
 	}
 	else
 	{
-		pthread_mutex_unlock(&(philo->data->forks[left]));
-		pthread_mutex_unlock(&(philo->data->forks[right]));
+		pthread_mutex_unlock(&(philo->data->forks[philo->left]));
+		print_info(philo, 'p');
+		pthread_mutex_unlock(&(philo->data->forks[philo->right]));
+		print_info(philo, 'p');
 	}
 }
 
 void	eat(t_philo *philo)
 {
-	long	time;
-
-	pthread_mutex_lock(&(philo->data->mutex));
-	time = get_chronometer(philo);
-	pthread_mutex_unlock(&(philo->data->mutex));
-	print_info(philo, time, 'e');
+	print_info(philo, 'e');
 	pthread_mutex_lock(&(philo->data->mutex));
 	philo->eat_count++;
-	pthread_mutex_unlock(&(philo->data->mutex));
-	pthread_mutex_lock(&(philo->data->mutex));
 	philo->last_meal = gettime_miliseconds();
 	pthread_mutex_unlock(&(philo->data->mutex));
-	ft_usleep(philo, philo->data->eat_time);
-	dorpforks(philo);
+	usleep(philo->data->eat_time * 1000);
+	dropforks(philo);
 }

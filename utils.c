@@ -6,13 +6,13 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:14:03 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/10 12:14:10 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:25:10 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	ft_usleep(t_philo *philo, long wait_time)
+int	ft_usleep(t_philo *philo, long wait_time)
 {
 	long	st;
 
@@ -23,16 +23,19 @@ void	ft_usleep(t_philo *philo, long wait_time)
 		if (philo->data->end)
 		{
 			pthread_mutex_unlock(&philo->data->mutex);
-			return ;
+			return (1);
 		}
 		pthread_mutex_unlock(&philo->data->mutex);
 	}
-	return ;
+	return (0) ;
 }
 
-void	print_info(t_philo *philo, long time, char c)
+void	print_info(t_philo *philo, char c)
 {
+	long time;
+	
 	pthread_mutex_lock(&(philo->data->mutex));
+	time = get_chronometer(philo);
 	if (c == 'd')
 		printf("%ld %i died\n", time, philo->nb);
 	if (philo->data->end)
@@ -48,6 +51,8 @@ void	print_info(t_philo *philo, long time, char c)
 		printf("%ld %i is thinking\n", time, philo->nb);
 	else if (c == 'f')
 		printf("%ld %i has taken a fork\n", time, philo->nb);
+	else if (c == 'p')
+		printf("%ld %i droped a fork\n", time, philo->nb);
 	pthread_mutex_unlock(&(philo->data->mutex));
 }
 

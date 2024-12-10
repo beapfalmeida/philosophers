@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:18:08 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/10 12:19:45 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:31:33 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,12 @@ typedef struct s_info
 typedef struct s_philo
 {
 	t_info		*data;
-	int			dead;
 	long		last_meal;
 	int			eat_count;
 	int			nb;
 	int			full;
+	int			left;
+	int			right;
 	pthread_t	tid;
 }	t_philo;
 
@@ -51,18 +52,19 @@ typedef struct s_philo
 int		is_pos_num(const char *str);
 int		ft_atoi(char *str);
 long	ft_atol(const char *str);
-void	print_info(t_philo *philo, long time, char c);
+void	print_info(t_philo *philo, char c);
 
 // utils2
 long	gettime_miliseconds(void);
 int		get_var(pthread_mutex_t *mutex, int var);
 long	get_chronometer(t_philo *philo);
-void	ft_usleep(t_philo *philo, long wait_time);
+int	ft_usleep(t_philo *philo, long wait_time);
 int		greater_zero(const char *str);
+int		starved(pthread_mutex_t *mutex, t_philo *philo);
 
 //eat
 void	grabfork(t_philo *philo);
-void	dorpforks(t_philo *philo);
+void	dropforks(t_philo *philo);
 void	eat(t_philo *philo);
 
 // init

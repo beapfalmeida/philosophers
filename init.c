@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:13:16 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/10 12:21:26 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/10 15:31:30 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ static void	init_philo(t_info *data, int i)
 	philo->data = data;
 	philo->nb = i + 1;
 	philo->eat_count = 0;
-	philo->dead = 0;
 	philo->last_meal = philo->data->start_time;
 	philo->data->end = 0;
 	philo->full = 0;
+	philo->left = i;
+	philo->right = (i + 1) % philo->data->n_philo;
 }
 
 static void	init_mutexes(t_info *data)

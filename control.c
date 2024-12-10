@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:13:03 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/10 12:22:49 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/10 16:25:49 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	control(t_info *data)
 	}
 }
 
-static int	starved(pthread_mutex_t *mutex, t_philo *philo)
+int	starved(pthread_mutex_t *mutex, t_philo *philo)
 {
 	pthread_mutex_lock(mutex);
 	if (gettime_miliseconds() - philo->last_meal >= philo->data->time_to_die)
@@ -71,16 +71,12 @@ static int	starved(pthread_mutex_t *mutex, t_philo *philo)
 
 int	check_if_died(pthread_mutex_t *mutex, t_philo *philo)
 {
-	long	time;
-
 	if (starved(mutex, philo))
 	{
 		pthread_mutex_lock(mutex);
-		philo->dead = 1;
 		philo->data->end = 1;
-		time = get_chronometer(philo);
 		pthread_mutex_unlock(mutex);
-		print_info(philo, time, 'd');
+		print_info(philo, 'd');
 		return (1);
 	}
 	return (0);
