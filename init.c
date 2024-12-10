@@ -13,6 +13,7 @@ static void	init_philo(t_info *data, int i)
 	philo->dead = 0;
 	philo->last_meal = philo->data->start_time;
 	philo->data->end = 0;
+	philo->full = 0;
 }
 
 static void	init_mutexes(t_info *data)
@@ -35,7 +36,7 @@ void	init_info(int ac, char **av, t_info *data)
 	data->sleep_time = ft_atol(av[4]);
 	if (ac == 6)
 		data->max_eat = ft_atol(av[5]);
-	else
+	if (ac != 6 || (av[5][0] == '0' && av[5][1] == '\0'))
 		data->max_eat = -1;
 	data->all_ready = 0;
 	data->start_time = gettime_miliseconds();
@@ -49,7 +50,7 @@ void	init_info(int ac, char **av, t_info *data)
 	while (++i < data->n_philo)
 		pthread_create(&(data->philo[i].tid), NULL, &simulate, &data->philo[i]);
 	pthread_mutex_lock(&(data->mutex));
-	data->all_ready = 1;
+	data->all_ready = 1; // tirar (?)
 	pthread_mutex_unlock(&(data->mutex));
 	control(data);
 	i = -1;

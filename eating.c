@@ -30,7 +30,7 @@ void	dorpforks(t_philo *philo)
 	int left; // o meu
 	int right; // o proximo
 
-	pthread_mutex_lock(&(philo->data->mutex));
+	//pthread_mutex_lock(&(philo->data->mutex));
 	left = philo->nb - 1;
 	right = philo->nb;
 	if (philo->nb == philo->data->n_philo)
@@ -45,7 +45,7 @@ void	dorpforks(t_philo *philo)
 		pthread_mutex_unlock(&(philo->data->forks[left]));
 		pthread_mutex_unlock(&(philo->data->forks[right]));
 	}
-	pthread_mutex_unlock(&(philo->data->mutex));
+	//pthread_mutex_unlock(&(philo->data->mutex));
 }
 
 void	eat(t_philo *philo)
@@ -62,6 +62,6 @@ void	eat(t_philo *philo)
 	pthread_mutex_lock(&(philo->data->mutex));
 	philo->last_meal = gettime_miliseconds();
 	pthread_mutex_unlock(&(philo->data->mutex));
-	usleep(philo->data->eat_time * 1000);
+	ft_usleep(philo, philo->data->eat_time);
 	dorpforks(philo);
 }

@@ -1,15 +1,41 @@
 #include "philosophers.h"
 
+static int	check_all_ate(t_philo *philo)
+{
+	int	i;
+	
+	i = 0;
+	pthread_mutex_lock(&(philo->data->mutex));
+	while (i < philo->data->n_philo)
+	{
+		if (!philo[i].full)
+		{
+			pthread_mutex_unlock(&(philo->data->mutex));
+			return (0);
+		}
+		i++;
+	}
+	philo->data->end = 1;
+	pthread_mutex_unlock(&(philo->data->mutex));
+	return (1);
+}
+
 void control(t_info *data)
 {
 	int	i;
-	i = 0;
 
+	i = 0;
 	while (1)
 	{
+		if (check_all_ate(data->philo))
+			return ;
 		i = 0;
 		while (i < data->n_philo)
 		{
+			pthread_mutex_lock(&(data->mutex));
+			if (data->philo[i].eat_count == data->max_eat)
+				data->philo[i].full = 1;
+			pthread_mutex_unlock(&(data->mutex));
 			if (check_if_died(&(data->mutex), &(data->philo[i])))
 				return ;
 			i++;

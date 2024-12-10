@@ -1,11 +1,21 @@
 #include "philosophers.h"
 
-//espaco para 1 funcao
-
-void	wait_all_threads(t_info *data)
+void	ft_usleep(t_philo *philo, long wait_time)
 {
-	while (!get_var(&(data->mutex), data->all_ready))
-		;
+	long	st;
+
+	st = gettime_miliseconds();
+	while (gettime_miliseconds() - st < wait_time)
+	{
+		pthread_mutex_lock(&philo->data->mutex);
+		if (philo->data->end)
+		{
+			pthread_mutex_unlock(&philo->data->mutex);
+			return ;
+		}
+		pthread_mutex_unlock(&philo->data->mutex);
+	}
+	return ;
 }
 
 void	print_info(t_philo *philo, long time, char c)

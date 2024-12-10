@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -Wextra -Wall -Werror -g -fsanitize=thread
 NAME = philo
-SRC = philo.c init.c simulation.c eating.c utils.c  get_and_set.c control.c
+SRC = philo.c init.c simulation.c eating.c utils.c  utils2.c control.c
 OBJ_DIR = obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 

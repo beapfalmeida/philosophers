@@ -18,7 +18,6 @@ static void	invalid_args()
 	printf("Please provide the following arguments:\n");
 	printf("<nb_of_philosophers> <time_to_die> <time_to_eat>");
 	printf(" <time_to_sleep> [n. of times each must eat]\n");
-	printf("All numbers should be greater than 0\n");
 }
 
 static void	check_args(int ac, char **av, t_info *data)
@@ -26,7 +25,7 @@ static void	check_args(int ac, char **av, t_info *data)
 	int	i;
 
 	i = 1;
-	while (av[i])
+	while (av[i + 1])
 	{
 		if (!is_pos_num(av[i]))
 		{
@@ -34,6 +33,11 @@ static void	check_args(int ac, char **av, t_info *data)
 			return ;
 		}
 		i++;
+	}
+	if (!greater_zero(av[i]))
+	{
+		invalid_args();
+		return ;
 	}
 	init_info(ac, av, data);
 	clear_everything(data);

@@ -38,7 +38,7 @@ static void	go_sleep(t_philo *philo)
 	time = get_chronometer(philo);
 	pthread_mutex_unlock(&(philo->data->mutex));
 	print_info(philo, time,'s');
-	usleep(philo->data->sleep_time * 1000);
+	ft_usleep(philo, philo->data->sleep_time);
 }
 
 void	*simulate(void *arg)
