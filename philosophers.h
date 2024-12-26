@@ -30,6 +30,7 @@ typedef struct s_info
 	long			sleep_time;
 	int				max_eat;
 	long			start_time;
+	int				all_ate;
 	int				end;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	mutex;
@@ -42,7 +43,6 @@ typedef struct s_philo
 	long		last_meal;
 	int			eat_count;
 	int			nb;
-	int			full;
 	int			left;
 	int			right;
 	pthread_t	tid;

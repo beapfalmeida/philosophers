@@ -51,9 +51,11 @@ void	dropforks(t_philo *philo)
 void	eat(t_philo *philo)
 {
 	print_info(philo, 'e');
-	pthread_mutex_lock(&(philo->data->mutex));
 	philo->eat_count++;
 	philo->last_meal = gettime_miliseconds();
+	pthread_mutex_lock(&(philo->data->mutex));
+	if (philo->eat_count == philo->data->max_eat)
+		philo->data->all_ate++;
 	pthread_mutex_unlock(&(philo->data->mutex));
 	usleep(philo->data->eat_time * 1000);
 	dropforks(philo);
