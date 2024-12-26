@@ -19,7 +19,7 @@ static int	check_all_ate(t_philo *philo)
 	{
 		philo->data->end = 1;
 		pthread_mutex_unlock(&(philo->data->mutex));
-		printf("Each philo ate his respective meal!\n");
+		printf("Each philo ate his respective meals!\n");
 		return (1);
 	}
 	pthread_mutex_unlock(&(philo->data->mutex));

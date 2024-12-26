@@ -36,16 +36,13 @@ void	print_info(t_philo *philo, char c)
 	
 	pthread_mutex_lock(&(philo->data->mutex));
 	time = get_chronometer(philo);
-	pthread_mutex_unlock(&(philo->data->mutex));
 	if (c == 'd')
 		printf("%ld %i died\n", time, philo->nb);
-	pthread_mutex_lock(&(philo->data->mutex));
 	if (philo->data->end)
 	{
 		pthread_mutex_unlock(&(philo->data->mutex));
 		return ;
 	}
-	pthread_mutex_unlock(&(philo->data->mutex));
 	if (c == 'e')
 		printf("%ld %i is eating\n", time, philo->nb);
 	else if (c == 's')
@@ -56,6 +53,7 @@ void	print_info(t_philo *philo, char c)
 		printf("%ld %i has taken a fork\n", time, philo->nb);
 	else if (c == 'p')
 		printf("%ld %i droped a fork\n", time, philo->nb);
+	pthread_mutex_unlock(&(philo->data->mutex));
 }
 
 int	is_pos_num(const char *str)
