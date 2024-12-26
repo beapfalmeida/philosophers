@@ -17,17 +17,15 @@ void	grabfork(t_philo *philo)
 	if (philo->nb % 2 == 0)
 	{
 		pthread_mutex_lock(&(philo->data->forks[philo->left]));
-		print_info(philo, 'f');
 		pthread_mutex_lock(&(philo->data->forks[philo->right]));
-		print_info(philo, 'f');
 	}
 	else
 	{
 		pthread_mutex_lock(&(philo->data->forks[philo->right]));
-		print_info(philo, 'f');
 		pthread_mutex_lock(&(philo->data->forks[philo->left]));
-		print_info(philo, 'f');
 	}
+	print_info(philo, 'f');
+	print_info(philo, 'f');
 }
 
 void	dropforks(t_philo *philo)
@@ -35,28 +33,24 @@ void	dropforks(t_philo *philo)
 	if (philo->nb % 2 == 0)
 	{
 		pthread_mutex_unlock(&(philo->data->forks[philo->right]));
-		print_info(philo, 'p');
 		pthread_mutex_unlock(&(philo->data->forks[philo->left]));
-		print_info(philo, 'p');
 	}
 	else
 	{
 		pthread_mutex_unlock(&(philo->data->forks[philo->left]));
-		print_info(philo, 'p');
 		pthread_mutex_unlock(&(philo->data->forks[philo->right]));
-		print_info(philo, 'p');
 	}
 }
 
 void	eat(t_philo *philo)
 {
 	print_info(philo, 'e');
+	pthread_mutex_lock(&(philo->data->mutex));
 	philo->eat_count++;
 	philo->last_meal = gettime_miliseconds();
-	pthread_mutex_lock(&(philo->data->mutex));
 	if (philo->eat_count == philo->data->max_eat)
 		philo->data->all_ate++;
 	pthread_mutex_unlock(&(philo->data->mutex));
-	usleep(philo->data->eat_time * 1000);
+	ft_usleep(philo, philo->data->eat_time);
 	dropforks(philo);
 }

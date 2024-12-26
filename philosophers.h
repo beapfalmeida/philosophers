@@ -60,7 +60,7 @@ int		get_var(pthread_mutex_t *mutex, int var);
 long	get_chronometer(t_philo *philo);
 int	ft_usleep(t_philo *philo, long wait_time);
 int		greater_zero(const char *str);
-int		starved(pthread_mutex_t *mutex, t_philo *philo);
+int		starved(t_philo *philo);
 
 //eat
 void	grabfork(t_philo *philo);
@@ -71,7 +71,7 @@ void	eat(t_philo *philo);
 void	init_info(int ac, char **av, t_info *data);
 
 void	*simulate(void *arg);
-int		check_if_died(pthread_mutex_t *mutex, t_philo *philo);
+int		check_if_died(t_philo *philo);
 void	control(t_info *data);
 
 #endif

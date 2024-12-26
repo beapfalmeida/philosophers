@@ -14,14 +14,11 @@
 
 static int	edge_cases(t_philo *philo)
 {
-	pthread_mutex_lock(&(philo->data->mutex));
 	if (philo->data->n_philo == 1)
 	{
-		pthread_mutex_unlock(&(philo->data->mutex));
 		print_info(philo, 'f');
 		return (1);
 	}
-	pthread_mutex_unlock(&(philo->data->mutex));
 	return (0);
 }
 
@@ -38,6 +35,8 @@ void	*simulate(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	pthread_mutex_lock(&(philo->data->mutex));			
+	pthread_mutex_unlock(&(philo->data->mutex));
 	if (edge_cases(philo))
 		return (NULL);
 	while (1)

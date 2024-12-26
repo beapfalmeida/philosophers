@@ -20,10 +20,9 @@ static void	init_philo(t_info *data, int i)
 	philo->data = data;
 	philo->nb = i + 1;
 	philo->eat_count = 0;
-	philo->last_meal = philo->data->start_time;
-	philo->data->end = 0;
+	philo->last_meal = data->start_time;
 	philo->left = i;
-	philo->right = (i + 1) % philo->data->n_philo;
+	philo->right = (i + 1) % data->n_philo;
 }
 
 static void	init_mutexes(t_info *data)
@@ -50,6 +49,7 @@ void	init_info(int ac, char **av, t_info *data)
 		data->max_eat = -1;
 	data->start_time = gettime_miliseconds();
 	data->all_ate = 0;
+	data->end = 0;
 	data->philo = (t_philo *)malloc(data->n_philo * sizeof(t_philo));
 	data->forks = malloc(data->n_philo * sizeof(pthread_mutex_t));
 	init_mutexes(data);
