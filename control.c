@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:13:03 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/27 14:21:01 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/27 16:37:34 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	check_if_died(t_philo *philo)
 			pthread_mutex_lock(&(philo->data->mutex));
 			philo->data->end = 1;
 			pthread_mutex_unlock(&(philo->data->mutex));
-			print_info(philo, 'd');
+			print_info(&philo[i], 'd');
 			return (1);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:13:07 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/10 16:23:03 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/27 16:46:34 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	eat(t_philo *philo)
 {
 	print_info(philo, 'e');
 	pthread_mutex_lock(&(philo->data->mutex));
-	philo->eat_count++;
 	philo->last_meal = gettime_miliseconds();
+	philo->eat_count++;
 	if (philo->eat_count == philo->data->max_eat)
 		philo->data->all_ate++;
 	pthread_mutex_unlock(&(philo->data->mutex));
