@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:18:08 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/10 15:31:33 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:25:46 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	print_info(t_philo *philo, char c);
 long	gettime_miliseconds(void);
 int		get_var(pthread_mutex_t *mutex, int var);
 long	get_chronometer(t_philo *philo);
-int	ft_usleep(t_philo *philo, long wait_time);
+int		ft_usleep(t_philo *philo, long wait_time);
 int		greater_zero(const char *str);
 int		starved(t_philo *philo);
 

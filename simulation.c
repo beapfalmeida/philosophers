@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:14:01 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/10 15:34:28 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:25:37 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*simulate(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	pthread_mutex_lock(&(philo->data->mutex));			
+	pthread_mutex_lock(&(philo->data->mutex));
 	pthread_mutex_unlock(&(philo->data->mutex));
 	if (edge_cases(philo))
 		return (NULL);

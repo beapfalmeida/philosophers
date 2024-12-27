@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:13:16 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/10 15:31:30 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:25:14 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ static void	init_mutexes(t_info *data)
 		pthread_mutex_init(&(data->forks[i]), NULL);
 }
 
-void	init_info(int ac, char **av, t_info *data)
+static void	save_args(t_info *data, char **av, int ac)
 {
-	int	i;
-
 	data->n_philo = ft_atoi(av[1]);
 	data->time_to_die = ft_atol(av[2]);
 	data->eat_time = ft_atol(av[3]);
@@ -47,11 +45,22 @@ void	init_info(int ac, char **av, t_info *data)
 		data->max_eat = ft_atol(av[5]);
 	if (ac != 6 || (av[5][0] == '0' && av[5][1] == '\0'))
 		data->max_eat = -1;
+}
+
+void	init_info(int ac, char **av, t_info *data)
+{
+	int	i;
+
+	save_args(data, av, ac);
 	data->start_time = gettime_miliseconds();
 	data->all_ate = 0;
 	data->end = 0;
 	data->philo = (t_philo *)malloc(data->n_philo * sizeof(t_philo));
+	if (!data->philo)
+		return ;
 	data->forks = malloc(data->n_philo * sizeof(pthread_mutex_t));
+	if (!data->forks)
+		return (free(data->philo));
 	init_mutexes(data);
 	i = -1;
 	while (++i < data->n_philo)

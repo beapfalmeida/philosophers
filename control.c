@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:13:03 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/10 16:25:49 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2024/12/27 14:21:01 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	control(t_info *data)
 			|| check_all_ate(data->philo))
 			return ;
 	}
-	}
+}
 
 int	starved(t_philo *philo)
 {
@@ -50,7 +50,7 @@ int	starved(t_philo *philo)
 
 int	check_if_died(t_philo *philo)
 {
-	int i;
+	int	i;
 	int	n;
 
 	i = 0;
