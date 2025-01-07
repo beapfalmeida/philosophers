@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wextra -Wall -Werror -g
+CFLAGS = -Wextra -Wall -Werror -g -fsanitize=thread
 NAME = philo
 SRC = philo.c init.c simulation.c eating.c utils.c  utils2.c control.c
 OBJ_DIR = obj

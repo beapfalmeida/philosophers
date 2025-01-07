@@ -6,7 +6,7 @@
 /*   By: bpaiva-f <bpaiva-f@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 12:13:03 by bpaiva-f          #+#    #+#             */
-/*   Updated: 2024/12/27 16:37:34 by bpaiva-f         ###   ########.fr       */
+/*   Updated: 2025/01/07 15:53:41 by bpaiva-f         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	check_all_ate(t_philo *philo)
 	{
 		philo->data->end = 1;
 		pthread_mutex_unlock(&(philo->data->mutex));
-		printf("Each philo ate his respective meals!\n");
 		return (1);
 	}
 	pthread_mutex_unlock(&(philo->data->mutex));
